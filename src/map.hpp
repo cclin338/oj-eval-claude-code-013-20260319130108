@@ -653,8 +653,8 @@ template<
                    rotateRight(x->parent);
                    w = x->parent->left;
                }
-               if ((!w->right || !w->right->color) && (!w->left || !w->left->color)) {
-                   w->color = true;
+               if (!w || ((!w->right || !w->right->color) && (!w->left || !w->left->color))) {
+                   if (w) w->color = true;
                    x = x->parent;
                } else {
                    if (!w->left || !w->left->color) {
