@@ -614,7 +614,13 @@ template<
    }
 
    void fixDelete(Node *x) {
-       while (x != root && (!x || !x->color)) {
+       Node *w;
+       while (x != root && (!x || x->color == false)) {
+           if (x == nullptr) {
+               // x is null (black), we're done
+               break;
+           }
+
            if (x == x->parent->left) {
                Node *w = x->parent->right;
                if (w && w->color) {
@@ -623,8 +629,8 @@ template<
                    rotateLeft(x->parent);
                    w = x->parent->right;
                }
-               if ((!w->left || !w->left->color) && (!w->right || !w->right->color)) {
-                   w->color = true;
+               if (!w || ((!w->left || !w->left->color) && (!w->right || !w->right->color))) {
+                   if (w) w->color = true;
                    x = x->parent;
                } else {
                    if (!w->right || !w->right->color) {
